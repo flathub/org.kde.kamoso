@@ -30,14 +30,18 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.kde.org/stable/release-service/23.08.5/src/kamoso-23.08.5.tar.xz",
-                    "sha256": "84cc4538da2906c1503de97e6fb6f1ef790f0e7b9f3c08f6367770e5bdf08d01",
+                    "url": "https://download.kde.org/stable/release-service/24.02.1/src/kamoso-24.02.1.tar.xz",
+                    "sha256": "af7f221f854ccccafcf0bda889d7f7234fa3deb6504d9cd0a140052461977829",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 8763,
                         "stable-only": true,
                         "url-template": "https://download.kde.org/stable/release-service/$version/src/kamoso-$version.tar.xz"
                     }
+                },
+                {
+                    "type": "patch",
+                    "path": "0001-icons-App-icon-is-not-compressed-SVG.patch"
                 }
             ]
         }
