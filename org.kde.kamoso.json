@@ -39,6 +39,9 @@
                         "url-template": "https://download.kde.org/stable/release-service/$version/src/kamoso-$version.tar.xz"
                     }
                 }
+            ],
+            "post-install": [
+                "cp -v ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/kamoso.svgz ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/kamoso.svg"
             ]
         }
     ]
