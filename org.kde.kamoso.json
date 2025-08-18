@@ -42,6 +42,23 @@
             ]
         },
         {
+            "name": "gst-plugins-base",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.27.1.tar.xz",
+                    "sha256": "25ff354f63f3f4bf0a66cb938948eeb203be5e1d5ef8e0154fb54e553242e201",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 21852,
+                        "stable-only": true,
+                        "url-template": "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-$version.tar.xz"
+                    }
+                }
+            ]
+        },
+        {
             "name": "gstreamer-plugins-good",
             "buildsystem": "meson",
             "sources": [
