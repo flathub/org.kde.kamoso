@@ -11,9 +11,9 @@
         "--filesystem=xdg-run/pipewire-0",
         "--filesystem=xdg-videos",
         "--share=ipc",
-        "--socket=pulseaudio",
         "--socket=wayland",
-        "--socket=x11"
+        "--socket=fallback-x11",
+        "--env=GST_PLUGIN_SYSTEM_PATH=/app/lib/gstreamer-1.0/:/usr/lib/gstreamer-1.0/"
     ],
     "cleanup": [
         "*.a",
@@ -25,76 +25,46 @@
     ],
     "modules": [
         {
-            "name": "gstreamer",
+            "name": "qml6glsink",
             "buildsystem": "meson",
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.27.1.tar.xz",
-                    "sha256": "ac89913f5c39c4b216515814e63b54e865953a37dacfe149afaacdfbeb39a9f1",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 21852,
-                        "stable-only": true,
-                        "url-template": "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-$version.tar.xz"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "gst-plugins-base",
-            "buildsystem": "meson",
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.27.1.tar.xz",
-                    "sha256": "25ff354f63f3f4bf0a66cb938948eeb203be5e1d5ef8e0154fb54e553242e201",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 21852,
-                        "stable-only": true,
-                        "url-template": "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-$version.tar.xz"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "gstreamer-plugins-good",
-            "buildsystem": "meson",
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.27.1.tar.xz",
-                    "sha256": "ca1b18d746744e93738d29ffcc7d00029c67729ea9797a5e4f5dbd41d824e66c",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 21852,
-                        "stable-only": true,
-                        "url-template": "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-$version.tar.xz"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "kirigami-addons",
-            "buildsystem": "cmake-ninja",
             "builddir": true,
+            "config-opts": [
+                "-Dauto_features=disabled",
+                "-Dugly=disabled",
+                "-Dbad=disabled",
+                "-Dgood=enabled",
+                "-Dbase=enabled",
+                "-Dqt6=enabled",
+                "-Dgst-plugins-good:qt-wayland=enabled",
+                "-Dgst-plugins-good:qt-x11=enabled",
+                "-Dgst-plugins-base:gl=enabled",
+                "-Dgst-plugins-base:x11=enabled",
+                "--buildtype=release"
+            ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "https://download.kde.org/stable/kirigami-addons/kirigami-addons-1.9.0.tar.xz",
-                    "sha256": "21314a91f26b1c962def3fd7ff2e762d3358b075f63f4d7e0144fb2c63b7ebc7",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 242933,
-                        "stable-only": true,
-                        "url-template": "https://download.kde.org/stable/kirigami-addons/kirigami-addons-$version.tar.xz"
-                    }
+                    "type": "git",
+                    "url": "https://gitlab.freedesktop.org/gstreamer/gstreamer.git",
+                    "tag": "1.24.7",
+                    "//": "Sync tag with the runtime-version gstreamer version",
+                    "disable-submodules": true
+                },
+                {
+                    "type": "patch",
+                    "path": "0001-qml6glitem-qtitem-Allow-configuring-if-the-item-will.patch"
                 }
+            ],
+            "no-make-install": true,
+            "post-install": [
+                "install -Dt /app/lib/gstreamer-1.0/ subprojects/gst-plugins-good/ext/qt6/libgstqml6.so"
             ]
         },
         {
             "name": "kamoso",
+            "config-opts": [
+                "-DPATCHED_GSTREAMER=ON",
+                "-DENABLE_TESTING=OFF"
+            ],
             "buildsystem": "cmake-ninja",
             "sources": [
                 {
