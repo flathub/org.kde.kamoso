@@ -25,6 +25,37 @@
     ],
     "modules": [
         {
+            "name": "qml6glsink",
+            "buildsystem": "meson",
+            "builddir": true,
+            "config-opts": [
+                "-Dauto_features=disabled",
+                "-Dugly=disabled",
+                "-Dbad=disabled",
+                "-Dgood=enabled",
+                "-Dbase=enabled",
+                "-Dqt6=enabled",
+                "-Dgst-plugins-good:qt-wayland=enabled",
+                "-Dgst-plugins-good:qt-x11=enabled",
+                "-Dgst-plugins-base:gl=enabled",
+                "-Dgst-plugins-base:x11=enabled",
+                "--buildtype=release"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.freedesktop.org/gstreamer/gstreamer.git",
+                    "tag": "1.24.7",
+                    "//": "Sync tag with the runtime-version gstreamer version",
+                    "disable-submodules": true
+                }
+            ],
+            "no-make-install": true,
+            "post-install": [
+                "install -Dt /app/lib/gstreamer-1.0/ subprojects/gst-plugins-good/ext/qt6/libgstqml6.so"
+            ]
+        },
+        {
             "name": "kamoso",
             "buildsystem": "cmake-ninja",
             "sources": [
