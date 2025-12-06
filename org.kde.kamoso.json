@@ -1,7 +1,7 @@
 {
     "id": "org.kde.kamoso",
     "runtime": "org.kde.Platform",
-    "runtime-version": "5.15-24.08",
+    "runtime-version": "6.9",
     "sdk": "org.kde.Sdk",
     "command": "kamoso",
     "rename-icon": "kamoso",
@@ -11,9 +11,9 @@
         "--filesystem=xdg-run/pipewire-0",
         "--filesystem=xdg-videos",
         "--share=ipc",
-        "--socket=pulseaudio",
         "--socket=wayland",
-        "--socket=x11"
+        "--socket=fallback-x11",
+        "--env=GST_PLUGIN_SYSTEM_PATH=/app/lib/gstreamer-1.0/:/usr/lib/gstreamer-1.0/"
     ],
     "cleanup": [
         "*.a",
@@ -25,13 +25,52 @@
     ],
     "modules": [
         {
+            "name": "qml6glsink",
+            "buildsystem": "meson",
+            "builddir": true,
+            "config-opts": [
+                "-Dauto_features=disabled",
+                "-Dugly=disabled",
+                "-Dbad=disabled",
+                "-Dgood=enabled",
+                "-Dbase=enabled",
+                "-Dqt6=enabled",
+                "-Dgst-plugins-good:qt-wayland=enabled",
+                "-Dgst-plugins-good:qt-x11=enabled",
+                "-Dgst-plugins-base:gl=enabled",
+                "-Dgst-plugins-base:x11=enabled",
+                "--buildtype=release"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.freedesktop.org/gstreamer/gstreamer.git",
+                    "tag": "1.24.7",
+                    "//": "Sync tag with the runtime-version gstreamer version",
+                    "disable-submodules": true
+                },
+                {
+                    "type": "patch",
+                    "path": "0001-qml6glitem-qtitem-Allow-configuring-if-the-item-will.patch"
+                }
+            ],
+            "no-make-install": true,
+            "post-install": [
+                "install -Dt /app/lib/gstreamer-1.0/ subprojects/gst-plugins-good/ext/qt6/libgstqml6.so"
+            ]
+        },
+        {
             "name": "kamoso",
+            "config-opts": [
+                "-DPATCHED_GSTREAMER=ON",
+                "-DENABLE_TESTING=OFF"
+            ],
             "buildsystem": "cmake-ninja",
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.kde.org/stable/release-service/25.04.3/src/kamoso-25.04.3.tar.xz",
-                    "sha256": "27cb36ac810434514e4f870c64d8ca851e868dd49fca1396dcb5be97a9727477",
+                    "url": "https://download.kde.org/stable/release-service/25.08.0/src/kamoso-25.08.0.tar.xz",
+                    "sha256": "32dc14864fa4b634ce057bf29647cad7bfdac15a282ba2ca98f4230b28142160",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 8763,
