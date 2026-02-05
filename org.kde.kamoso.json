@@ -69,8 +69,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.kde.org/stable/release-service/25.12.1/src/kamoso-25.12.1.tar.xz",
-                    "sha256": "b7c572cf675ff4e8ee4ec07b6c176d72fb6838146c8a16000db148374fff9526",
+                    "url": "https://download.kde.org/stable/release-service/25.12.2/src/kamoso-25.12.2.tar.xz",
+                    "sha256": "a3c80edf315fcfd0ef49ad1808410202f8083ca935f3876eeba03681c2c063a7",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 8763,
