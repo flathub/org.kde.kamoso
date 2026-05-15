@@ -5,6 +5,7 @@
     "sdk": "org.kde.Sdk",
     "command": "kamoso",
     "rename-icon": "kamoso",
+    "rename-appdata-file": "org.kde.kamoso.appdata.xml",
     "finish-args": [
         "--device=all",
         "--filesystem=xdg-pictures",
@@ -41,6 +42,7 @@
                     "type": "git",
                     "url": "https://gitlab.freedesktop.org/gstreamer/gstreamer.git",
                     "tag": "1.26.10",
+                    "commit": "bfdc62185e243d3633aa916187a566d03a587792",
                     "//": "Sync tag with the runtime-version gstreamer version",
                     "disable-submodules": true
                 }
